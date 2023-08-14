@@ -32,6 +32,12 @@ public class Logic {
 			 "Euros"
 	};
 	
+	public static final String[] temperatureScales = {
+			 "Celsius",
+			 "Fahrenheit",
+			 "Kelvin"
+	};
+	
 	public static final String[] mainOptions= {
 			 "Divisas",
 			 "Temperatura"
