@@ -10,6 +10,8 @@ public class Main {
        
 		String value = Logic.requestValueToConvert(choosedMainOption);
 		
+		String[] conversionUnits= Logic.requestConversionUnits(choosedMainOption,
+																Logic.currencies);
 	}
 
 }

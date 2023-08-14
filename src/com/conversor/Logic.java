@@ -1,11 +1,13 @@
 package com.conversor;
 
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+
 
 public class Logic {
 	
 	//Dolar, Peso Mexicano, Libras Esterlinas, Yen Japones, Won Sul.coreano, Euros.	
-	private static final double [] dollarToX = {
+	public static final double [] dollarToX = {
 			17.05,
 			0.79,
 			145.46,
@@ -13,7 +15,7 @@ public class Logic {
 			0.92
 	};
 	
-	private static final double [] xToDollar = {
+	public static final double [] xToDollar = {
 			0.059,
 			1.27,
 			0.0069,
@@ -21,7 +23,7 @@ public class Logic {
 			1.09
 	};
 	
-	private static final String[] currencies= {
+	public static final String[] currencies = {
 			 "Dolar",
 			 "Peso Mexicano",
 			 "Libras Esterlinas",
@@ -30,24 +32,26 @@ public class Logic {
 			 "Euros"
 	};
 	
-	private static final String[] mainOptions= {
+	public static final String[] mainOptions= {
 			 "Divisas",
 			 "Temperatura"
 	};
 	
 	private static String[] optionFixer(String optionToErase,String[]originalOptions) {
 		
-		String[] fixedOptions = new String[originalOptions.length - 1];
+		ArrayList<String> fixedOptions = new ArrayList<>();
 		
-		for (int i = 0 ; i < fixedOptions.length - 1; i++) {
+		for (String option : originalOptions) {
 			
-			if(!optionToErase.equalsIgnoreCase(originalOptions[i])) {
-				fixedOptions[i] = originalOptions[i];
+			if(!optionToErase.equalsIgnoreCase(option)) {
+				fixedOptions.add(option);
 			}
 			
 		}
 		
-		return fixedOptions;
+		String[] result = fixedOptions.toArray(new String[fixedOptions.size()]);
+		
+		return result;
 	}
 	
 	public static String requestMainOption() {
@@ -112,7 +116,8 @@ public class Logic {
 		
 	}
 	
-	public static String[] requestConversionUnits(String mainChoosedOption){
+	public static String[] requestConversionUnits(String mainChoosedOption,
+													String[] mainChoosedFields){
 		
 		String[] result = new String[2];
 		
@@ -122,8 +127,8 @@ public class Logic {
 				"Conversor de " + mainChoosedOption,
 				JOptionPane.QUESTION_MESSAGE,
 				null,
-				currencies,
-				currencies[0]);
+				mainChoosedFields,
+				mainChoosedFields[0]);
 		
 		String[]fixedOptions = optionFixer(result[0],currencies);
 		
@@ -134,9 +139,19 @@ public class Logic {
 				JOptionPane.QUESTION_MESSAGE,
 				null,
 				fixedOptions,
-				fixedOptions[0]);  
+				fixedOptions[0]); 
+		
+		JOptionPane.showMessageDialog(
+	              null,
+	              "Se selecciono la conversion de: "
+	              + result[0] + 
+	              " a : "
+	              + result[1],
+	              "Conversor de " + mainChoosedOption,
+	              JOptionPane.WARNING_MESSAGE);
 	
 		return result; 
 	}
+	
 	
 }
