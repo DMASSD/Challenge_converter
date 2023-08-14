@@ -8,7 +8,7 @@ public class Main {
 		
 		String choosedMainOption = Logic.requestMainOption();
        
-		String value = Logic.RequestValueToconvert(choosedMainOption);
+		String value = Logic.requestValueToConvert(choosedMainOption);
 		
 	}
 
