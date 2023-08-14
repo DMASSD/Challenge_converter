@@ -63,7 +63,7 @@ public class Logic {
 		} else {
 		      JOptionPane.showMessageDialog(
 		              null,
-		              "No se ingreso ningun nuemero, cerrando programa.",
+		              "No se ingreso ningun numero, cerrando programa.",
 		              "Conversor de " + choosedOption,
 		              JOptionPane.WARNING_MESSAGE);
 		      return null;
