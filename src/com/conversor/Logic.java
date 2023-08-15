@@ -73,6 +73,8 @@ public class Logic {
 				null,
 				mainOptions,
 				mainOptions[0]);
+		
+		if(choosedOption == null)throw new ConverterException();
 
 		return choosedOption;
 		
@@ -82,28 +84,40 @@ public class Logic {
 		
 		double choosedValue = 0;
 		
-		try {
+		boolean  notAValidNumber = true;
+		
+		while (notAValidNumber) {
 			
-			String getValue = (String)JOptionPane.showInputDialog(
-					null,
-					"Inserte la cantidad a convertir",
-					"Conversor de " + mainChoosedOption,
-					JOptionPane.QUESTION_MESSAGE,
-					null,
-					null,
-					"0");
-			
-			choosedValue = Double.parseDouble(getValue);
-			
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(
-					null,
-					"Solamente se admiten numeros favor de omitir letras y "
-					+ "caracteres especiales",
-					"Error",
-					JOptionPane.WARNING_MESSAGE);
-		}
+			try {
 				
+				String getValue = (String)JOptionPane.showInputDialog(
+						null,
+						"Inserte la cantidad a convertir",
+						"Conversor de " + mainChoosedOption,
+						JOptionPane.QUESTION_MESSAGE,
+						null,
+						null,
+						"0");
+				
+				if(getValue == null)throw new ConverterException();
+				
+				choosedValue = Double.parseDouble(getValue);
+				
+				if(choosedValue <= 0)throw new NumberFormatException();
+				
+				notAValidNumber = false;
+				
+			} catch (NumberFormatException e) {
+				JOptionPane.showMessageDialog(
+						null,
+						"No se aceptan numeros menores o igual a cero, "
+						+ " letras ni "
+						+ "caracteres especiales",
+						"Error",
+						JOptionPane.WARNING_MESSAGE);
+			}
+		}	
+		
 		return choosedValue;
 		
 	}
@@ -232,12 +246,6 @@ public class Logic {
                 options[0]);
         
         if(selectedOption == JOptionPane.YES_OPTION) {return true;}
-        
-        JOptionPane.showMessageDialog(
-				null,
-				"Programa Finalizado",
-				"Saliendo del programa",
-				JOptionPane.INFORMATION_MESSAGE);
         
         return false;
 		
