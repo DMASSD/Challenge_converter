@@ -8,10 +8,24 @@ public class Main {
        
 		String value = Logic.requestValueToConvert(choosedMainOption);
 		
-		String[] conversionUnits= Logic.requestConversionUnits(choosedMainOption,
-																Logic.currencies);
+		if(choosedMainOption.equals(Logic.mainOptions[0])) {
+			
+			String[] conversionUnits= Logic.requestConversionUnits(choosedMainOption,
+					Logic.currencies);
+			
+			Logic.doCurrencyConversion(value,conversionUnits);
+		}
 		
-		Logic.doCurrencyConversion(value,conversionUnits);
+		else {
+			String[] conversionUnits= Logic.requestConversionUnits(choosedMainOption,
+					Logic.temperatureScales);
+			
+			Logic.doTemperatureConversion(value,conversionUnits);
+		}
+		
+		
+		
+		
 	}
 
 }

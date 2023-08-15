@@ -1,5 +1,6 @@
 package com.conversor;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -61,7 +62,7 @@ public class Logic {
 		
 		return result;
 	}
-	
+
 	public static String requestMainOption() {
 	
 		String choosedOption = (String) JOptionPane.showInputDialog(
@@ -116,15 +117,6 @@ public class Logic {
 				null,
 				fixedOptions,
 				fixedOptions[0]); 
-		
-		JOptionPane.showMessageDialog(
-	              null,
-	              "Se selecciono la conversion de: "
-	              + result[0] + 
-	              " a : "
-	              + result[1],
-	              "Conversor de " + mainChoosedOption,
-	              JOptionPane.INFORMATION_MESSAGE);
 	
 		return result; 
 	}
@@ -133,28 +125,83 @@ public class Logic {
 											String[] conversionUnits) {
 		
 		double value = Double.valueOf(valueSelected);
-		int fromCurrencyPosition = 0;
-		int toCurrencyPosition = 0;
 		double result;
 		
+		int[] fromToIndex = new int[2];
+		
 		for (int i = 0; i < currencies.length; i++) {
-            if (currencies[i].equals(conversionUnits[0])) {
-            	fromCurrencyPosition = i;
-            }
-            if (currencies[i].equals(conversionUnits[1])) {
-            	toCurrencyPosition = i;
-            }
-        }
+			if (currencies[i].equals(conversionUnits[0])) {
+				fromToIndex[0] = i;
+			}
+			if (currencies[i].equals(conversionUnits[1])) {
+				fromToIndex[1] = i;
+			}
+		}
 		
-		result = xToDollar[fromCurrencyPosition] * value * dollarToX[toCurrencyPosition];
+		result = (xToDollar[fromToIndex[0]] * value * dollarToX[fromToIndex[1]]);
 		
+		DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        String roundedResult = decimalFormat.format(result);
+
 		JOptionPane.showMessageDialog(
 				null,
-				"El resultado es: $" + result + " " + conversionUnits[1],
+				"El resultado es: $" + roundedResult + " " + conversionUnits[1],
 				"Conversor de Divisas",
 				JOptionPane.INFORMATION_MESSAGE);
 
 		}
 		
+	public static void doTemperatureConversion(String valueSelected,
+											String[] conversionUnits) {
+		
+		double value = Double.valueOf(valueSelected);
+		double result = 0;
+				
+		switch (conversionUnits[0]) {
+		 
+         case "Celsius":
+             switch (conversionUnits[1]) {
+                 case "Fahrenheit":
+                	 result = (value * 9 / 5) + 32;
+                	 break;
+                 case "Kelvin":
+                	 result = value + 273.15;
+                	 break;
+             }
+             break;
+             
+         case "Fahrenheit": 
+             switch (conversionUnits[1]) {
+                 case "Celsius":
+                	 result = (value - 32) * 5 / 9;
+                	 break;
+                 case "Kelvin":
+                	 result = (value + 459.67) * 5 / 9;
+                	 break;
+             }
+             break;
+             
+         case "Kelvin":
+             switch (conversionUnits[1]) {
+                 case "Celsius":
+                	 result = value - 273.15;
+                	 break;
+                 case "Fahrenheit":
+                	 result = (value * 9 / 5) - 459.67;
+                	 break;
+             }
+             break;
+		}
+
+		DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        String roundedResult = decimalFormat.format(result);
+		
+		JOptionPane.showMessageDialog(
+				null,
+				"El resultado es: " + roundedResult + " " + conversionUnits[1],
+				"Conversor de Temperatura",
+				JOptionPane.INFORMATION_MESSAGE);
+
+		}
 	
 }
