@@ -4,10 +4,47 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
-
+/**
+ * Class that contains the logic of the converter program, 
+ * inside there are methods that perform the respective 
+ * conversions of 2 main things, currency and temperature.<br><br>
+ *
+ *For currencies:<br><br>
+ *
+ *-Dollar<br>
+ *-Mexican Peso<br>
+ *-Sterling Pound<br>
+ *-Japanese Yen<br>
+ *-Korean Won Sul.Korean<br>
+ *-Euro<br><br>
+ *
+ *The currency conversion is accomplished by initially converting any 
+ *currency to US dollars, and subsequently using that value as the basis 
+ *for conversion to the desired currency.<br><br>
+ *
+ *For temperature:<br><br>
+ *
+ *-Celsius<br>
+ *-Fahrenheit<br>
+ *-Kelvin<br><br>
+ *
+ *The method for temperature conversion involves applying 
+ *the standard formulas outlined in scientific textbooks.
+ * 
+ * @author Daniel Mass Domínguez
+ */
 public class Logic {
-	
-	//Dolar, Peso Mexicano, Libras Esterlinas, Yen Japones, Won Sul.coreano, Euros.	
+		
+	/**
+	 * Constant values used to convert dollars to any currency
+	 * The values are given in the following order:<br><br>
+	 *  -Dollar<br>
+		-Mexican Peso<br>
+		-Sterling Pound<br>
+		-Japanese Yen<br>
+		-Korean Won Sul.Korean<br>
+		-Euro<br>
+	 */
 	public static final double[] dollarToX = {
 			1,
 			17.0611,
@@ -17,6 +54,16 @@ public class Logic {
 			0.9168
 	};
 	
+	/**
+	 * Constant values used to convert any currency to dollars.
+	 * The values are given in the following order:<br><br>
+	 *  -Dollar<br>
+		-Mexican Peso<br>
+		-Sterling Pound<br>
+		-Japanese Yen<br>
+		-Korean Won Sul.Korean<br>
+		-Euro<br>
+	 */
 	public static final double[] xToDollar = {
 			1,
 			0.0586,
@@ -26,6 +73,15 @@ public class Logic {
 			1.0907
 	};
 	
+	/**
+	 * Names of the currencies handled:<br><br>
+	 *  -Dollar<br>
+		-Mexican Peso<br>
+		-Sterling Pound<br>
+		-Japanese Yen<br>
+		-Korean Won Sul.Korean<br>
+		-Euro<br>
+	 */
 	public static final String[] currencies = {
 			 "Dolar",
 			 "Peso Mexicano",
@@ -35,17 +91,40 @@ public class Logic {
 			 "Euros"
 	};
 	
+	/**
+	 * Names of the temperature units handled:<br><br>
+	 *  -Celsius<br>
+		-Fahrenheit<br>
+		-Kelvin<br>
+	 */
 	public static final String[] temperatureScales = {
 			 "Celsius",
 			 "Fahrenheit",
 			 "Kelvin"
 	};
 	
-	public static final String[] mainOptions= {
+	/**
+	 * Names of the conversions handled:<br><br>
+	 *  -Currencies<br>
+		-Temperature<br>
+	 */
+	public static final String[] mainOptions = {
 			 "Divisas",
 			 "Temperatura"
 	};
 	
+	/**
+	 * This method removes the previously selected currency 
+	 * or temperature option,preventing redundant conversions 
+	 * within the same currency or temperature scale.<br><br>
+	 * 
+	 * @param optionToErase
+	 * 
+	 * @param originalOptions
+	 * 
+	 * @return (String[]) an array of Strings filled with all the 
+	 * options except the one previously selected.
+	 */
 	private static String[] optionFixer(String optionToErase,String[]originalOptions) {
 		
 		ArrayList<String> fixedOptions = new ArrayList<>();
@@ -63,6 +142,19 @@ public class Logic {
 		return result;
 	}
 
+	/**
+	 * This method shows a message using JOptionPane in which 
+	 * the user is asked for the conversion he/she wants to make 
+	 * (For this version only currency and temperature conversions 
+	 * are allowed).<br><br>
+	 *
+	 * In case the user does not select any option the method will 
+	 * throw an exception of the ConverterException type, this exception 
+	 * serves mainly to stop the whole operation of the program.
+	 * 
+	 * @return (String) a String containing the user-selected conversion 
+	 * type value. (These values are sourced from mainOptions()).
+	 */
 	public static String requestMainOption() {
 	
 		String choosedOption = (String) JOptionPane.showInputDialog(
@@ -80,6 +172,23 @@ public class Logic {
 		
 	}
 	
+	/**
+	 * This method shows a message using JOptionPane in which 
+	 * the user is asked for the value he/she wants to convert.<br><br>
+	 *
+	 * If the user selects a negative or zero value, the method will trigger
+	 * an NumberFormatException type exception. This exception will be caught within 
+	 * the same method, which will establish a loop until the user inputs a 
+	 * valid number.<br><br>
+	 *
+	 * In case the user does not select any option the method will 
+	 * throw an exception of the ConverterException type, this exception 
+	 * serves mainly to stop the whole operation of the program.
+	 * 
+	 * @param mainChoosedOption
+	 * 
+	 * @return (Double) The number added by the user.
+	 */
 	public static double requestValueToConvert(String mainChoosedOption) {
 		
 		double choosedValue = 0;
@@ -122,6 +231,20 @@ public class Logic {
 		
 	}
 	
+	/**
+	 * This method shows a message using JOptionPane in which 
+	 * the user is asked for the Conversion Units he/she wants to convert.<br><br>
+	 * 
+	 * In case the user does not select any option the method will 
+	 * throw an exception of the ConverterException type, this exception 
+	 * serves mainly to stop the whole operation of the program.<br><br>
+	 * 
+	 * @param mainChoosedOption @see mainOptions
+	 * @param mainChoosedFields @see currencies or temperatureScales
+	 * @return (String[]) An array of 2 strings that contains the desired 
+	 * conversion units, the first position being the unit to convert from 
+	 * and the second the unit to convert to.
+	 */
 	public static String[] requestConversionUnits(String mainChoosedOption,
 												  String[] mainChoosedFields){
 		
@@ -145,11 +268,25 @@ public class Logic {
 				JOptionPane.QUESTION_MESSAGE,
 				null,
 				fixedOptions,
-				fixedOptions[0]); 
+				fixedOptions[0]);
+		
+		if(result[1] == null)throw new ConverterException();
 	
 		return result; 
 	}
 	
+	/**
+	 * This method performs the conversion of currencies.<br><br>
+	 * 
+	 *The currency conversion is accomplished by initially converting any 
+	 *currency to US dollars, and subsequently using that value as the basis 
+	 *for conversion to the desired currency.<br><br>
+	 *
+	 *The result is showed in a JOptionPane.
+	 * 
+	 * @param valueSelected @see requestValueToConvert()
+	 * @param conversionUnits @see requestConversionUnits()
+	 */
 	public static void doCurrencyConversion(double valueSelected,
 											String[] conversionUnits) {
 		
@@ -179,6 +316,17 @@ public class Logic {
 
 		}
 		
+	/**
+	 * This method performs the conversion of Temperatures.<br><br>
+	 * 
+	 *The method for temperature conversion involves applying 
+	 *the standard formulas outlined in scientific textbooks.<br><br>
+	 *
+	 *The result is showed in a JOptionPane.
+	 * 
+	 * @param valueSelected @see requestValueToConvert()
+	 * @param conversionUnits @see requestConversionUnits()
+	 */
 	public static void doTemperatureConversion(double valueSelected,
 											String[] conversionUnits) {
 
@@ -231,6 +379,14 @@ public class Logic {
 
 		}
 	
+	/**
+	 * This method is used to exit the program, the Main class 
+	 * consists of a While loop which can only be exited by setting 
+	 * the @see keepOnProgram variable to True.<br><br>
+	 * 
+	 * @return (boolean) this boolean let you exit the while loop of
+	 * the Main Class if true.
+	 */
 	public static boolean endProgram() {
 		
 		String[] options = {"Sí", "No", "Cancelar"};
