@@ -4,27 +4,37 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
-		String choosedMainOption = Logic.requestMainOption();
-       
-		String value = Logic.requestValueToConvert(choosedMainOption);
+		boolean keepOnProgram = true;
 		
-		if(choosedMainOption.equals(Logic.mainOptions[0])) {
+		while(keepOnProgram) {
 			
-			String[] conversionUnits= Logic.requestConversionUnits(choosedMainOption,
-					Logic.currencies);
+			double value = 0;
+		
+			String choosedMainOption = Logic.requestMainOption();
 			
-			Logic.doCurrencyConversion(value,conversionUnits);
+			while (value == 0) {
+				value = Logic.requestValueToConvert(choosedMainOption);
+			}
+	       
+			
+			if(choosedMainOption.equals(Logic.mainOptions[0])) {
+				
+				String[] conversionUnits= Logic.requestConversionUnits(choosedMainOption,
+						Logic.currencies);
+				
+				Logic.doCurrencyConversion(value,conversionUnits);
+			}
+			
+			else {
+				String[] conversionUnits= Logic.requestConversionUnits(choosedMainOption,
+						Logic.temperatureScales);
+				
+				Logic.doTemperatureConversion(value,conversionUnits);
+			}
+		
+			keepOnProgram = Logic.endProgram();
+			
 		}
-		
-		else {
-			String[] conversionUnits= Logic.requestConversionUnits(choosedMainOption,
-					Logic.temperatureScales);
-			
-			Logic.doTemperatureConversion(value,conversionUnits);
-		}
-		
-		
-		
 		
 	}
 

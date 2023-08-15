@@ -78,17 +78,32 @@ public class Logic {
 		
 	}
 	
-	public static String requestValueToConvert(String mainChoosedOption) {
+	public static double requestValueToConvert(String mainChoosedOption) {
 		
-		String choosedValue = (String) JOptionPane.showInputDialog(
-				null,
-				"Inserte la cantidad a convertir",
-				"Conversor de " + mainChoosedOption,
-				JOptionPane.QUESTION_MESSAGE,
-				null,
-				null,
-				"0");
-
+		double choosedValue = 0;
+		
+		try {
+			
+			String getValue = (String)JOptionPane.showInputDialog(
+					null,
+					"Inserte la cantidad a convertir",
+					"Conversor de " + mainChoosedOption,
+					JOptionPane.QUESTION_MESSAGE,
+					null,
+					null,
+					"0");
+			
+			choosedValue = Double.parseDouble(getValue);
+			
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(
+					null,
+					"Solamente se admiten numeros favor de omitir letras y "
+					+ "caracteres especiales",
+					"Error",
+					JOptionPane.WARNING_MESSAGE);
+		}
+				
 		return choosedValue;
 		
 	}
@@ -107,7 +122,7 @@ public class Logic {
 				mainChoosedFields,
 				mainChoosedFields[0]);
 		
-		String[]fixedOptions = optionFixer(result[0],currencies);
+		String[]fixedOptions = optionFixer(result[0],mainChoosedFields);
 		
 		result[1] = (String) JOptionPane.showInputDialog(
 				null,
@@ -121,10 +136,9 @@ public class Logic {
 		return result; 
 	}
 	
-	public static void doCurrencyConversion(String valueSelected,
+	public static void doCurrencyConversion(double valueSelected,
 											String[] conversionUnits) {
 		
-		double value = Double.valueOf(valueSelected);
 		double result;
 		
 		int[] fromToIndex = new int[2];
@@ -138,7 +152,7 @@ public class Logic {
 			}
 		}
 		
-		result = (xToDollar[fromToIndex[0]] * value * dollarToX[fromToIndex[1]]);
+		result = (xToDollar[fromToIndex[0]] * valueSelected * dollarToX[fromToIndex[1]]);
 		
 		DecimalFormat decimalFormat = new DecimalFormat("#.##");
         String roundedResult = decimalFormat.format(result);
@@ -151,10 +165,9 @@ public class Logic {
 
 		}
 		
-	public static void doTemperatureConversion(String valueSelected,
+	public static void doTemperatureConversion(double valueSelected,
 											String[] conversionUnits) {
-		
-		double value = Double.valueOf(valueSelected);
+
 		double result = 0;
 				
 		switch (conversionUnits[0]) {
@@ -162,10 +175,10 @@ public class Logic {
          case "Celsius":
              switch (conversionUnits[1]) {
                  case "Fahrenheit":
-                	 result = (value * 9 / 5) + 32;
+                	 result = (valueSelected * 9 / 5) + 32;
                 	 break;
                  case "Kelvin":
-                	 result = value + 273.15;
+                	 result = valueSelected + 273.15;
                 	 break;
              }
              break;
@@ -173,10 +186,10 @@ public class Logic {
          case "Fahrenheit": 
              switch (conversionUnits[1]) {
                  case "Celsius":
-                	 result = (value - 32) * 5 / 9;
+                	 result = (valueSelected - 32) * 5 / 9;
                 	 break;
                  case "Kelvin":
-                	 result = (value + 459.67) * 5 / 9;
+                	 result = (valueSelected + 459.67) * 5 / 9;
                 	 break;
              }
              break;
@@ -184,10 +197,10 @@ public class Logic {
          case "Kelvin":
              switch (conversionUnits[1]) {
                  case "Celsius":
-                	 result = value - 273.15;
+                	 result = valueSelected - 273.15;
                 	 break;
                  case "Fahrenheit":
-                	 result = (value * 9 / 5) - 459.67;
+                	 result = (valueSelected * 9 / 5) - 459.67;
                 	 break;
              }
              break;
@@ -204,4 +217,29 @@ public class Logic {
 
 		}
 	
+	public static boolean endProgram() {
+		
+		String[] options = {"Sí", "No", "Cancelar"};
+        
+        int selectedOption = JOptionPane.showOptionDialog(
+        		null,
+                "¿Desea continuar?",
+                "Seleccione una opcion",
+                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]);
+        
+        if(selectedOption == JOptionPane.YES_OPTION) {return true;}
+        
+        JOptionPane.showMessageDialog(
+				null,
+				"Programa Finalizado",
+				"Saliendo del programa",
+				JOptionPane.INFORMATION_MESSAGE);
+        
+        return false;
+		
+	}
 }
