@@ -1,7 +1,5 @@
 package com.conversor;
 
-import javax.swing.*;
-
 public class Main {
 	
 	public static void main(String[] args) {
@@ -12,6 +10,8 @@ public class Main {
 		
 		String[] conversionUnits= Logic.requestConversionUnits(choosedMainOption,
 																Logic.currencies);
+		
+		Logic.doCurrencyConversion(value,conversionUnits);
 	}
 
 }

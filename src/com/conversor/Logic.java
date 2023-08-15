@@ -7,20 +7,22 @@ import javax.swing.JOptionPane;
 public class Logic {
 	
 	//Dolar, Peso Mexicano, Libras Esterlinas, Yen Japones, Won Sul.coreano, Euros.	
-	public static final double [] dollarToX = {
-			17.05,
-			0.79,
-			145.46,
-			1337.85,
-			0.92
+	public static final double[] dollarToX = {
+			1,
+			17.0611,
+			0.7884,
+			145.4250,
+			1335.7300,
+			0.9168
 	};
 	
-	public static final double [] xToDollar = {
-			0.059,
-			1.27,
+	public static final double[] xToDollar = {
+			1,
+			0.0586,
+			1.2685,
 			0.0069,
 			0.00075,
-			1.09
+			1.0907
 	};
 	
 	public static final String[] currencies = {
@@ -63,67 +65,35 @@ public class Logic {
 	public static String requestMainOption() {
 	
 		String choosedOption = (String) JOptionPane.showInputDialog(
-		          null,
-		          "Selecciona lo que deseas convertir",
-		          "Conversor",
-		          JOptionPane.QUESTION_MESSAGE,
-		          null,
-		          mainOptions,
-		          mainOptions[0]);
+				null,
+				"Selecciona lo que deseas convertir",
+				"Conversor",
+				JOptionPane.QUESTION_MESSAGE,
+				null,
+				mainOptions,
+				mainOptions[0]);
 
-		if (choosedOption != null) {
-
-		      JOptionPane.showMessageDialog(
-		              null,
-		              "La opcion seleccionada fue: " + choosedOption,
-		              "Conversor",
-		              JOptionPane.INFORMATION_MESSAGE);
-		      return choosedOption;
-		      
-		} else {
-		      JOptionPane.showMessageDialog(
-		              null,
-		              "Ninguna opcion seleccionada, cerrando programa",
-		              "Conversor",
-		              JOptionPane.WARNING_MESSAGE);
-		      return null;
-		  }
+		return choosedOption;
 		
 	}
 	
 	public static String requestValueToConvert(String mainChoosedOption) {
 		
 		String choosedValue = (String) JOptionPane.showInputDialog(
-		          null,
-		          "Inserte la cantidad a convertir",
-		          "Conversor de " + mainChoosedOption,
-		          JOptionPane.QUESTION_MESSAGE,
-		          null,
-		          null,
-		          "0");
+				null,
+				"Inserte la cantidad a convertir",
+				"Conversor de " + mainChoosedOption,
+				JOptionPane.QUESTION_MESSAGE,
+				null,
+				null,
+				"0");
 
-		if (choosedValue != null) {
-
-		      JOptionPane.showMessageDialog(
-		              null,
-		              "La cantidad ingresada fue: " + choosedValue,
-		              "Conversor de " + mainChoosedOption,
-		              JOptionPane.INFORMATION_MESSAGE);
-		      return choosedValue;
-		      
-		} else {
-		      JOptionPane.showMessageDialog(
-		              null,
-		              "No se ingreso ningun numero, cerrando programa.",
-		              "Conversor de " + mainChoosedOption,
-		              JOptionPane.WARNING_MESSAGE);
-		      return null;
-		  }
+		return choosedValue;
 		
 	}
 	
 	public static String[] requestConversionUnits(String mainChoosedOption,
-													String[] mainChoosedFields){
+												  String[] mainChoosedFields){
 		
 		String[] result = new String[2];
 		
@@ -154,10 +124,37 @@ public class Logic {
 	              " a : "
 	              + result[1],
 	              "Conversor de " + mainChoosedOption,
-	              JOptionPane.WARNING_MESSAGE);
+	              JOptionPane.INFORMATION_MESSAGE);
 	
 		return result; 
 	}
 	
+	public static void doCurrencyConversion(String valueSelected,
+											String[] conversionUnits) {
+		
+		double value = Double.valueOf(valueSelected);
+		int fromCurrencyPosition = 0;
+		int toCurrencyPosition = 0;
+		double result;
+		
+		for (int i = 0; i < currencies.length; i++) {
+            if (currencies[i].equals(conversionUnits[0])) {
+            	fromCurrencyPosition = i;
+            }
+            if (currencies[i].equals(conversionUnits[1])) {
+            	toCurrencyPosition = i;
+            }
+        }
+		
+		result = xToDollar[fromCurrencyPosition] * value * dollarToX[toCurrencyPosition];
+		
+		JOptionPane.showMessageDialog(
+				null,
+				"El resultado es: $" + result + " " + conversionUnits[1],
+				"Conversor de Divisas",
+				JOptionPane.INFORMATION_MESSAGE);
+
+		}
+		
 	
 }
